@@ -11,7 +11,7 @@ public class Hero {
     }
 
 
-    public void create_hero() {
+    public void createHero() {
         if (Objects.equals(race, "elf")) {
             hp += 100;
             damage += 50;
@@ -39,14 +39,27 @@ public class Hero {
             damage += 60;
         }
     }
-    public boolean hero_attack(Enemy enemy) {
+    public boolean heroAttack(Enemy enemy) {
+        int maxexp = this.lvl *100;
         enemy.hp -= this.damage;
         if (enemy.hp <= 0) {
-            System.out.printf("Gratz, %s disabled", enemy.name);
+            System.out.printf("Gratz, %s disabled. +20 experience\n", enemy.name);
+            this.exp += 20;
+            if (this.exp > maxexp) {
+                levelUp(maxexp);
+            }
             return false;
         } else {
-            System.out.printf("Enemy not disabled, he has %d health-point", enemy.hp);
+            System.out.printf("Enemy not disabled, he has %d health-point\n", enemy.hp);
         }
         return true;
+    }
+    public void levelUp(int maxexp) {
+        this.exp -= maxexp;
+        this.lvl += 1;
+        this.damage += this.lvl * 5;
+        this.hp += this.lvl *10;
+        System.out.printf("Nice, your level was update. Now you %d lvl\n", this.lvl);
+
     }
 }
